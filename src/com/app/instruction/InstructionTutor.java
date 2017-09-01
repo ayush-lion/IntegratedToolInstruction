@@ -142,7 +142,6 @@ public class InstructionTutor {
 					sbuf.append("\n");
 				}
 				sbuf.append(strArray[i]).append(" ");
-
 			}
 			System.out.print(sbuf);
 			sb = sbuf.toString();
@@ -153,8 +152,8 @@ public class InstructionTutor {
 			g.drawImage(getImage(), getPosX(), getPosY(), getWidth(), getHeight(), null);
 			g.setColor(Color.BLACK);	
 		        
+			 g.setFont(g.getFont().deriveFont(12f));
 	        drawString(g, sb, getPosX()+5, getPosY()+20);
-	        g.setFont(g.getFont().deriveFont(20f));
 			}
 	        
 			else

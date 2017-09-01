@@ -40,6 +40,11 @@ public class InstructionStudent
 		
 	}
 	
+	private void drawString(Graphics g, String text, int x, int y) {
+		for (String line : text.split("\n"))
+			g.drawString(line, x, y += g.getFontMetrics().getHeight());
+	}
+	
 	
 	public void draw_instruction(Graphics g)
 	{
@@ -48,25 +53,32 @@ public class InstructionStudent
 
 		if(isSwitchable())
 		{
-			
-			ArrayList<String> data = new ArrayList<String>();
-			data = fragmentText(getIns_text(),50);
-			data.add("   ");
-			//String padded = String.format("%-20s", getIns_text());
-			g.drawImage(getImage(),getPosX(), getPosY(), getWidth(),getHeight(), null);
-			for(int i=0; i<data.size();i++)
-			{
-				int y = getPosY()+35;
-				g.setColor(Color.BLACK);
-				if(i==0)
-				{
-					g.drawString(data.get(i), getPosX()+15,y);
+			int count=0;
+			String sb = null;
+			String str=getIns_text();
+			String[] strArray = str.split(" ");
+			StringBuffer sbuf = new StringBuffer();
+
+			for (int i = 0; i < strArray.length; i++) {
+				if (i != 0 && i % 5 == 0) {
+					sbuf.append("\n");
 				}
-				else
-				{
-					g.drawString(data.get(i), getPosX()+15, y+i*15);
-				}
+				sbuf.append(strArray[i]).append(" ");
+
 			}
+			System.out.print(sbuf);
+			sb = sbuf.toString();
+			count++;
+			System.out.println(sb);
+			System.out.println(count);
+			
+			g.drawImage(getImage(), getPosX(), getPosY(), getWidth(), getHeight(), null);
+			g.setColor(Color.BLACK);	
+		        
+			g.setFont(g.getFont().deriveFont(12f));
+	        drawString(g, sb, getPosX()+5, getPosY()+20);
+	      
+	        
 		}
 		else
 		{
