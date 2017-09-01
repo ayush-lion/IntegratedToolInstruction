@@ -1,14 +1,10 @@
 package com.app.instruction;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class InstructionTutor {
 
@@ -134,22 +130,19 @@ public class InstructionTutor {
 				g.drawImage(getImage(), getPosX(), getPosY(), getWidth(), getHeight(), null);
 				for (int i = 0; i < strArray.length; i++) {
 					if (i != 0 && i % 5 == 0) {
+
 						myString.add(sbuf.toString());
-						
-						sbuf.append("\n");
-						
+						System.out.println(myString);
 					}
-					sbuf.append(strArray[i]).append(" ");
+					sbuf.append(strArray[i]).append(" \n ");
 				}
-				sb = sbuf.toString();
 				for (String string : myString) {
-					g.drawString(string, getPosX()+5, getPosY()+30);
-					break;
+					g.drawString(string, getPosX() + 15, getPosY() + 34);
 				}
-				g.setColor(Color.BLACK);	
+				g.setColor(Color.BLACK);
 			}
 		} else {
-			//g.setColor(Color.TRANSLUCENT);
+			// g.setColor(Color.TRANSLUCENT);
 			g.setColor(Color.WHITE);
 			g.drawRect(getPosX(), getPosY(), getWidth(), getHeight());
 		}

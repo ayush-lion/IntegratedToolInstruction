@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -13,28 +14,35 @@ import com.app.instruction.panel.InstructionPanel;
 import com.app.utils.InstructionAttributeLoader;
 
 public class InstructionController {
+
+	public InstructionController() {
+		// TODO Auto-generated constructor stub
+	}
+
 	ActorStudent actor_Student;
 	ActorTutor actor_Tutor;
 	boolean istutor_thinking = false;
 	boolean isStudent_thinking = false;
 
-	InstructionStudent instruction_Student;
-	InstructionTutor instruction_Tutor;
+	InstructionStudent instruction_Student[];
+	InstructionTutor instruction_Tutor[];
+	ArrayList<String> arrayList;
 
 	InstructionPanel panel;
 	boolean isProvided = false;
 	Image tutor_image, student_image, tutor_ins, student_ins, student_ins_thinking, tutor_ins_thinking, tutor_thinking,
 			student_thinking;
 
-
 	public InstructionController(InstructionPanel Panel) throws IOException {
 		this.panel = Panel;
 		actor_Tutor = new ActorTutor();
 		actor_Student = new ActorStudent();
-		instruction_Student = new InstructionStudent();
-		instruction_Tutor = new InstructionTutor();
+
+		// instruction_Student = new InstructionStudent();
+		// instruction_Tutor=new InstructionTutor();
+
 		this.isProvided = false;
-		
+
 		// Initialize_Attributes(null);
 	}
 
@@ -42,8 +50,9 @@ public class InstructionController {
 		this.panel = Panel;
 		actor_Tutor = new ActorTutor();
 		actor_Student = new ActorStudent();
-		instruction_Student = new InstructionStudent();
-		instruction_Tutor = new InstructionTutor();
+
+		// instruction_Student = new InstructionStudent();
+		// instruction_Tutor=new InstructionTutor();
 
 		// isProvided = true;
 		// this.Initialize_Attributes(filename);
@@ -64,15 +73,17 @@ public class InstructionController {
 		setStudent_image(getImage(attributes.get("student_image")));
 		setStudent_ins_thinking(getImage(attributes.get("student_thought_image")));
 		setStudent_ins(getImage(attributes.get("student_speech_image")));
-		setTutor_ins_thinking(getImage(attributes.get("tutor_thought_image")));
+
 		setTutor_ins(getImage(attributes.get("tutor_speech_image")));
-		setStudent_text(attributes.get("student_text"));
 		setTutor_text(attributes.get("tutor_text"));
+
+		setTutor_ins_thinking(getImage(attributes.get("tutor_thought_image")));
+		setStudent_text(attributes.get("student_text"));
 		setStudent_thinking(getImage(attributes.get("student_thinking")));
 		setTutor_thinking(getImage(attributes.get("tutor_thinking")));
+
 		Initialize_Actors(getTutor_image(), getStudent_image());
 		Initialize_Instructions(getTutor_text(), getStudent_text(), getTutor_ins(), getStudent_ins());
-
 	}
 
 	public void DrawInstructionPanel(Graphics g) {
@@ -98,103 +109,123 @@ public class InstructionController {
 	public void Initialize_Actors(Image tutor_image, Image student_image) {
 		actor_Tutor.setImage(tutor_image);
 		actor_Tutor.setPosX(panel.getX());
-		actor_Tutor.setPosY(panel.getY()/(5*6));
-		actor_Tutor.setHeight(panel.getHeight()*2/2);
-		actor_Tutor.setWidth(panel.getWidth()/5);
+		actor_Tutor.setPosY(panel.getY() / (5 * 6));
+		actor_Tutor.setHeight(panel.getHeight() * 2 / 2);
+		actor_Tutor.setWidth(panel.getWidth() / 5);
 
 		actor_Student.setActor_image(student_image);
-		actor_Student.setPosX(panel.getWidth()-panel.getWidth()/5);
-		actor_Student.setPosY(panel.getY()/5);
-		actor_Student.setHeight(panel.getHeight()*2/3);
-		actor_Student.setWidth(panel.getWidth()/6);
+		actor_Student.setPosX(panel.getWidth() - panel.getWidth() / 5);
+		actor_Student.setPosY(panel.getY() / 5);
+		actor_Student.setHeight(panel.getHeight() * 2 / 3);
+		actor_Student.setWidth(panel.getWidth() / 6);
 
 	}
 
 	public void Initialize_Instructions(String tutor_text, String student_text, Image tutor, Image student) {
-		instruction_Tutor.setIns_text(tutor_text);
-		instruction_Tutor.setImage(tutor);
-		instruction_Tutor.setPosX(panel.getX()+panel.getWidth()/5);
-		instruction_Tutor.setPosY(panel.getY()/5+25);
-		instruction_Tutor.setWidth(panel.getWidth()/4);
-		instruction_Tutor.setHeight(panel.getHeight()/2+10);
-		instruction_Tutor.setSwitchable(true);
+		int i = 0;
+		for (i = 0; i < 4; i++) {
+			instruction_Tutor[i] = new InstructionTutor();
+			instruction_Tutor[i].setIns_text(tutor_text);
+			instruction_Tutor[i].setImage(tutor);
+			instruction_Tutor[i].setPosX(panel.getX());
+			instruction_Tutor[i].setPosY(panel.getY() + ((i + 1)));
+			instruction_Tutor[i].setWidth(panel.getWidth() / 4);
+			instruction_Tutor[i].setHeight(panel.getHeight() / 2 + 10);
+			instruction_Tutor[i].setSwitchable(true);
+		}
 
-		//System.out.println(""+tutor.toString()+""+student.toString());
-		
-		instruction_Student.setIns_text(student_text);
-		instruction_Student.setImage(student);
-		instruction_Student.setPosX(panel.getX()+panel.getWidth()/2);
-		instruction_Student.setPosY(panel.getY()/5+25);
-		instruction_Student.setWidth(panel.getWidth()/4);
-		instruction_Student.setHeight(panel.getHeight()/2+10);
-		instruction_Student.setSwitchable(true);
+		// System.out.println(""+tutor.toString()+""+student.toString());
+
+		for (i = 0; i < 4; i++) {
+			instruction_Student[i] = new InstructionStudent();
+			instruction_Student[i].setIns_text(student_text);
+			instruction_Student[i].setImage(student);
+			instruction_Student[i].setPosX(panel.getX() + panel.getWidth() / 2);
+			instruction_Student[i].setPosY(panel.getY() + ((i + 1)));
+			instruction_Student[i].setWidth(panel.getWidth() / 4);
+			instruction_Student[i].setHeight(panel.getHeight() / 2 + 10);
+			instruction_Student[i].setSwitchable(true);
+		}
 	}
 
 	public void ReadyforInstructing() {
-		instruction_Tutor.setSwitchable(false);
-		instruction_Student.setSwitchable(false);
+		// instruction_Tutor.setSwitchable(false);
+		// instruction_Student.setSwitchable(false);
 	}
 
 	public void TutorInstructing(String text) {
-
-		if (istutor_thinking) {
-
+		
+		ArrayList<String> arrayList=new ArrayList<String>();
+		arrayList.add(tutor_text);
+		arrayList.add("good morning");
+		
+		for(int i=0; i<arrayList.size();i++) 
+		{
+			instruction_Tutor[i].setIns_text(arrayList.get(i));
+			System.out.println(arrayList.get(i));
+		}
+	}	
+		public void StudentInstructing(String text) {
+			
+			ArrayList<String> arrayList=new ArrayList<String>();
+			arrayList.add(student_text);
+			arrayList.add("good morning");
+			
+			for(int i=0; i<arrayList.size();i++) 
+			{
+				instruction_Student[i].setIns_text(arrayList.get(i));
+				System.out.println(arrayList.get(i));
+				arrayList.add("good morning");
+			}
+			
+		
+		/*if (istutor_thinking) {
 			ReadyforInstructing();
 			MakeTutorThink();
-			instruction_Tutor.setImage(getTutor_ins_thinking());
-			instruction_Tutor.setSwitchable(true);
-			instruction_Tutor.setIns_text(text.replaceAll("\\<.*?>", ""));
+
+			// instruction_Tutor.setSwitchable(true);
+			// instruction_Tutor.setIns_text(text.replaceAll("\\<.*?>", ""));
 
 		} else {
-			ReadyforInstructing();
-			instruction_Tutor.setImage(getTutor_ins());
-			instruction_Tutor.setSwitchable(true);
-			instruction_Tutor.setIns_text(text.replaceAll("\\<.*?>", ""));
-		}
 
+			ReadyforInstructing();
+
+			// instruction_Tutor.setImage(getTutor_ins());
+			// instruction_Tutor.setSwitchable(true);
+			// instruction_Tutor.setIns_text(text.replaceAll("\\<.*?>", ""));
+		}*/
+	
 	}
 
 	public void TutorThinking(String text) {
 
 	}
 
-	public void StudentInstructing(String text) {
-		if (isStudent_thinking) {
-			ReadyforInstructing();
-			MakeStudentThink();
-			instruction_Student.setImage(getStudent_ins_thinking());
-			instruction_Student.setSwitchable(true);
-			instruction_Student.setIns_text(text.replaceAll("\\<.*?>", ""));
-		} else {
-			ReadyforInstructing();
-
-			instruction_Student.setImage(getStudent_ins());
-			instruction_Student.setSwitchable(true);
-			instruction_Student.setIns_text(text.replaceAll("\\<.*?>", ""));
-		}
-	}
+	/*
+	 * public void StudentInstructing(String text) { if (isStudent_thinking) {
+	 * ReadyforInstructing(); MakeStudentThink();
+	 * instruction_Student.setImage(getStudent_ins_thinking());
+	 * instruction_Student.setSwitchable(true);
+	 * instruction_Student.setIns_text(text.replaceAll("\\<.*?>", "")); } else {
+	 * ReadyforInstructing();
+	 * 
+	 * instruction_Student.setImage(getStudent_ins());
+	 * instruction_Student.setSwitchable(true);
+	 * instruction_Student.setIns_text(text.replaceAll("\\<.*?>", "")); } }
+	 */
 
 	/**
 	 * @return the istutor_thinking
 	 */
-	
+
 	public boolean isIstutor_thinking() {
 		return istutor_thinking;
 	}
 
 	/**
-	 * @param istutor_thinking
-	 *            the istutor_thinking to set
-	 */
-	
-	public void setIstutor_thinking(boolean istutor_thinking) {
-		this.istutor_thinking = istutor_thinking;
-	}
-
-	/**
 	 * @return the isStudent_thinking
 	 */
-	
+
 	public boolean isStudent_thinking() {
 		return isStudent_thinking;
 	}
@@ -203,12 +234,10 @@ public class InstructionController {
 	 * @param isStudent_thinking
 	 *            the isStudent_thinking to set
 	 */
-	
+
 	public void setStudent_thinking(boolean isStudent_thinking) {
 		this.isStudent_thinking = isStudent_thinking;
 	}
-
-	
 
 	/**
 	 * @return the tutor_thinking
@@ -290,6 +319,7 @@ public class InstructionController {
 	/**
 	 * @return the student_ins
 	 */
+
 	public Image getStudent_ins() {
 		return student_ins;
 	}
@@ -358,10 +388,30 @@ public class InstructionController {
 	 * @param student_text
 	 *            the student_text to set
 	 */
+
+	public void setIstutor_thinking(boolean istutor_thinking) {
+		this.istutor_thinking = istutor_thinking;
+	}
+
+	public InstructionStudent[] getInstruction_Student() {
+		return instruction_Student;
+	}
+
+	public void setInstruction_Student(InstructionStudent[] instruction_Student) {
+		this.instruction_Student = instruction_Student;
+	}
+
+	public InstructionTutor[] getInstruction_Tutor() {
+		return instruction_Tutor;
+	}
+
+	public void setInstruction_Tutor(InstructionTutor[] instruction_Tutor) {
+		this.instruction_Tutor = instruction_Tutor;
+	}
+
 	public void setStudent_text(String student_text) {
 		this.student_text = student_text;
 	}
-	
 
 	public void StudentThinking(String text) {
 
@@ -384,16 +434,6 @@ public class InstructionController {
 		actor_Tutor.setImage(image);
 	}
 
-	public void Change_Instruction_Tutor(String text, Image image) {
-		instruction_Tutor.setImage(image);
-		instruction_Tutor.setIns_text(text);
-	}
-
-	public void Change_Instruction_Student(String text, Image image) {
-		instruction_Student.setIns_text(text);
-		instruction_Tutor.setImage(image);
-	}
-
 	public void Draw_Actor_Tutor(Graphics g) {
 		actor_Student.drawActor(g);
 	}
@@ -403,11 +443,15 @@ public class InstructionController {
 	}
 
 	public void Draw_Instruction_Tutor(Graphics g) {
-		instruction_Tutor.draw_instruction(g);
+		for (int i = 0; i < instruction_Tutor.length; i++) {
+			instruction_Tutor[i].draw_instruction(g);
+		}
 	}
 
 	public void Draw_Instruction_Student(Graphics g) {
-		instruction_Student.draw_instruction(g);
+		for (int i = 0; i < instruction_Student.length; i++) {
+			instruction_Student[i].draw_instruction(g);
+		}
 	}
 
 	public void Draw_Intruction_Panel(Graphics g) {
@@ -415,5 +459,11 @@ public class InstructionController {
 		Draw_Actor_Student(g);
 		Draw_Instruction_Tutor(g);
 		Draw_Instruction_Student(g);
+	}
+
+	public static void main(String[] args) {
+		Graphics g = null;
+		InstructionController instructionController = new InstructionController();
+		instructionController.TutorInstructing("yes");
 	}
 }

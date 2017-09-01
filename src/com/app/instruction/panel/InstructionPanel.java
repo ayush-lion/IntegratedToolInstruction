@@ -71,7 +71,7 @@ public class InstructionPanel extends JPanel
 			System.out.println("inside student");
 			String test = text.replace("S:", "");
 			controller.setStudent_thinking(isstudentthinking);
-			controller.StudentInstructing(test.replaceAll("\\<.*?>",""));
+			//controller.StudentInstructing(test.replaceAll("\\<.*?>",""));
 			panel.repaint();
 		}
 	}
