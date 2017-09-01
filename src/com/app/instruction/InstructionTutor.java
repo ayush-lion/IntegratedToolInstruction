@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class InstructionTutor {
@@ -21,6 +22,7 @@ public class InstructionTutor {
 	/**
 	 * @return the switchable
 	 */
+
 	public boolean isSwitchable() {
 		return switchable;
 	}
@@ -29,6 +31,7 @@ public class InstructionTutor {
 	 * @param switchable
 	 *            the switchable to set
 	 */
+
 	public void setSwitchable(boolean switchable) {
 		this.switchable = switchable;
 	}
@@ -69,6 +72,7 @@ public class InstructionTutor {
 	/**
 	 * @return the posX
 	 */
+
 	public int getPosX() {
 		return posX;
 	}
@@ -77,6 +81,7 @@ public class InstructionTutor {
 	 * @param posX
 	 *            the posX to set
 	 */
+
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}
@@ -84,6 +89,7 @@ public class InstructionTutor {
 	/**
 	 * @return the posY
 	 */
+
 	public int getPosY() {
 		return posY;
 	}
@@ -92,6 +98,7 @@ public class InstructionTutor {
 	 * @param posY
 	 *            the posY to set
 	 */
+
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
@@ -115,38 +122,49 @@ public class InstructionTutor {
 		// default constructor
 
 	}
-
+	private void drawString(Graphics g, String text, int x, int y) {
+		for (String line : text.split("\n"))
+			g.drawString(line, x, y += g.getFontMetrics().getHeight());
+	}
+	
 	public void draw_instruction(Graphics g)
 
 	{
-		if (isSwitchable()) {
-			{
-				ArrayList<String> aList = null;
-				String str = getIns_text();
-				String sb = null;
-				String[] strArray = str.split(" ");
-				StringBuffer sbuf = new StringBuffer();
-				List<String> myString = new ArrayList<>();
-				g.drawImage(getImage(), getPosX(), getPosY(), getWidth(), getHeight(), null);
-				for (int i = 0; i < strArray.length; i++) {
-					if (i != 0 && i % 5 == 0) {
+		if (isSwitchable()) { 
+			int count=0;
+			String sb = null;
+			String str=getIns_text();
+			String[] strArray = str.split(" ");
+			StringBuffer sbuf = new StringBuffer();
 
-						myString.add(sbuf.toString());
-						System.out.println(myString);
-					}
-					sbuf.append(strArray[i]).append(" \n ");
+			for (int i = 0; i < strArray.length; i++) {
+				if (i != 0 && i % 5 == 0) {
+					sbuf.append("\n");
 				}
-				for (String string : myString) {
-					g.drawString(string, getPosX() + 15, getPosY() + 34);
-				}
-				g.setColor(Color.BLACK);
+				sbuf.append(strArray[i]).append(" ");
+
 			}
-		} else {
-			// g.setColor(Color.TRANSLUCENT);
+			System.out.print(sbuf);
+			sb = sbuf.toString();
+			count++;
+			System.out.println(sb);
+			System.out.println(count);
+			
+			g.drawImage(getImage(), getPosX(), getPosY(), getWidth(), getHeight(), null);
+			g.setColor(Color.BLACK);	
+		        
+	        drawString(g, sb, getPosX()+5, getPosY()+20);
+	        g.setFont(g.getFont().deriveFont(20f));
+			}
+	        
+			else
+			
+			{
+			//g.setColor(Color.TRANSLUCENT);
 			g.setColor(Color.WHITE);
 			g.drawRect(getPosX(), getPosY(), getWidth(), getHeight());
+			}
 		}
-	}
 
 	private ArrayList<String> fragmentText(String text, int maxWidth) {
 		ArrayList<String> lines = new ArrayList<String>();
